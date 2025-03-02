@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "849849366906",
+    "project_id": "zfft-dd773",
+    "storage_bucket": "zfft-dd773.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:849849366906:android:eadd6b1ed9e5df02a7fec3",
+        "android_client_info": {
+          "package_name": "com.example.zfffft"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB_pXD5vRlSein-pgajbi6N0tdaSi-DfKE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
