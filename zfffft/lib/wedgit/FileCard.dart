@@ -7,15 +7,16 @@ import 'package:zfffft/utils/app-constant.dart';
 class FileCard extends StatelessWidget {
 final String title;
 final String coverUrl;
+final VoidCallback ontap;
 
-  const FileCard({super.key, required this.title, required this.coverUrl});
+  const FileCard({super.key, required this.title, required this.coverUrl, required this.ontap});
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 15),
       child: InkWell(
-        onTap: (){},
+        onTap: ontap,
         child: Container(
                           
                           padding:EdgeInsets.all(10) ,
@@ -47,8 +48,11 @@ final String coverUrl;
                          Expanded(child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                        Text('Title: $title ', 
-                        style: TextStyle(color: AppConstant.appMainColor,),),
+                        Padding(
+                          padding: const EdgeInsets.all(10),
+                          child: Text('Title: $title ', 
+                          style: TextStyle(color: AppConstant.appMainColor,),),
+                        ),
                        
                       ],))
                             ],

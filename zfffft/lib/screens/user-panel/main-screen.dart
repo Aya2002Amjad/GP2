@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:zfffft/FileDetails/FileDetalis.dart';
 import 'package:zfffft/models/FileData.dart';
 import 'package:zfffft/screens/auth-ui/welcom-screen.dart';
 import 'package:zfffft/wedgit/FileCard.dart';
@@ -42,14 +43,14 @@ class MainScreen extends StatelessWidget {
           )
         ],
       ),
-          drawer: DrawerWidget(),
+          drawer:  DrawerWidget(),
           body: SingleChildScrollView(
             child: Column(
                     children: [
             Container(
               padding: EdgeInsets.all(10),
               color: AppConstant.appMainColor,
-              height: Get.height/5,
+              height: Get.height/4.5,
               child: Expanded(
                 child: Row(
                   children: [
@@ -108,11 +109,15 @@ class MainScreen extends StatelessWidget {
                   ),
                   ),
                 ],),
-                SizedBox(height: 10,),
+                SizedBox(height: 10),
                  
                  Column(
                   children: 
-                  FileData.map((e)=> FileCard(title: e.title!, coverUrl: e.coverUrl!)).toList(),
+                  FileData.map((e)=> FileCard(title: e.title!, coverUrl: e.coverUrl!,
+                  ontap:(){
+                    Get.to(FileDetails());
+                  },
+                  )).toList(),
                  )
               ],
             ),

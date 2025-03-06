@@ -27,6 +27,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
             borderRadius: BorderRadius.only(
           topRight: Radius.circular((20.0)),
           bottomRight: Radius.circular(20.0),
+          
         )),
         child: Wrap(
           runSpacing: 10,
