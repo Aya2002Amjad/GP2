@@ -7,7 +7,8 @@ import 'package:zfffft/controllers/PdfController.dart';
 import 'package:zfffft/utils/app-constant.dart';
 
 class FilePage extends StatelessWidget {
-  const FilePage({super.key});
+  final String fileUrl;
+  const FilePage({super.key, required this.fileUrl});
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +32,7 @@ class FilePage extends StatelessWidget {
       child: Icon(Icons.bookmark),
       ),
       body: SfPdfViewer.network(
-        'https://cdn.syncfusion.com/content/PDFViewer/flutter-succinctly.pdf',
+        fileUrl,
         key: pdfController.pdfViewerKey,
       ),
       );

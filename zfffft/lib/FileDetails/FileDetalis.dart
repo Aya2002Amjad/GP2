@@ -3,11 +3,14 @@
 import 'package:flutter/material.dart';
 import 'package:zfffft/FileDetails/FileActionButton.dart';
 import 'package:zfffft/FileDetails/HeaderWidget.dart';
+import 'package:zfffft/models/file_model.dart';
 import 'package:zfffft/utils/app-constant.dart';
 
 
 class FileDetails extends StatelessWidget {
-  const FileDetails({super.key});
+  final FileModel file;
+
+  const FileDetails({super.key, required this.file});
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +24,15 @@ class FileDetails extends StatelessWidget {
               color: AppConstant.appMainColor,
               child: Row(
                 children: [
-                  Expanded(child: FileDetailHeader()),
+                  Expanded(child: FileDetailHeader(
+                    coverUrl: file.coverUrl!,
+                    title: file.title!,
+                    description: file.description!,
+                    pages: file.pages.toString(), 
+                    language: file.language.toString(), 
+                    audioLen: '',
+                    )
+                    ),
                 ],
               ),
             ),
@@ -47,38 +58,19 @@ class FileDetails extends StatelessWidget {
                     children: [
                       Flexible(
                         child: Text(
-                            "some text some textsome text  textsome text textsome text textsome text textsome texttextsome texttextsome texttextsome texttextsome text textsome text some text some text some text",
+                            file.description!,
                             style: TextStyle(
                                 color: const Color.fromARGB(255, 0, 0, 0),
                                 fontSize: 20)),
                       ),
                     ],
                   ),
-                  Row(
-                    children: [
-                      Text("About File",
-                          style: TextStyle(
-                              color: AppConstant.appTextColor2, fontSize: 30)),
-                    ],
-                  ),
+                  
+                  
                   SizedBox(
-                    height: 10,
+                    height: 160,
                   ),
-                  Row(
-                    children: [
-                      Flexible(
-                        child: Text(
-                            "some text some textsome text  textsome text textsome text textsome text textsome texttextsome texttextsome texttextsome texttextsome text textsome text some text some text some text",
-                            style: TextStyle(
-                                color: const Color.fromARGB(255, 0, 0, 0),
-                                fontSize: 20)),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 30,
-                  ),
-                  Fileactionbutton(),
+                  Fileactionbutton(fileUrl: file.fileurl!,),
                 ],
               ),
             )

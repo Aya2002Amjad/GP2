@@ -7,7 +7,8 @@ import 'package:zfffft/utils/app-constant.dart';
 
 
 class Fileactionbutton extends StatelessWidget {
-  const Fileactionbutton({super.key});
+  final String fileUrl;
+  const Fileactionbutton({super.key, required this.fileUrl});
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +23,7 @@ class Fileactionbutton extends StatelessWidget {
         children: [
           InkWell(
             onTap: (){
-              Get.to(FilePage());
+              Get.to(FilePage(fileUrl: fileUrl,));
             },
             child: Row(
               children: [

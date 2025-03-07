@@ -5,7 +5,14 @@ import 'package:zfffft/utils/app-constant.dart';
 import '../../Componant/BackButton.dart';
 
 class FileDetailHeader extends StatelessWidget {
-  const FileDetailHeader({super.key});
+  final String coverUrl;
+  final String title;
+  final String description;
+  final String pages;
+  final String language;
+  final String audioLen;
+
+  const FileDetailHeader({super.key, required this.coverUrl, required this.title, required this.description, required this.pages, required this.language, required this.audioLen});
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +40,7 @@ class FileDetailHeader extends StatelessWidget {
             ClipRRect(
               borderRadius: BorderRadius.circular(20),
               child: Image.asset(
-                'assests/images/book.jpeg',
+                coverUrl,
                 width: 170,
               ),
             )
@@ -42,23 +49,29 @@ class FileDetailHeader extends StatelessWidget {
         SizedBox(
           height: 30,
         ),
-        Text("Title"),
-        Text("Title"),
-        Text("Title"),
+        Text(title, 
+        maxLines: 1,
+        textAlign: TextAlign.center,
+        style: TextStyle(color: AppConstant.appTextColor,
+        fontWeight:  FontWeight.bold,
+        fontSize: 20,
+        ),),
+       // Text(description, style: TextStyle(color: AppConstant.appTextColor),),
+       SizedBox(height: 30,),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Column(children: [
-              Text("Hi"),
-              Text("Hi"),
+              Text('Pages',style: TextStyle(color: AppConstant.appTextColor),),
+              Text(pages , style: TextStyle(color: AppConstant.appTextColor),),
             ]),
             Column(children: [
-              Text("Hi"),
-              Text("Hi"),
+              Text("Languages", style: TextStyle(color: AppConstant.appTextColor),),
+              Text(language,style: TextStyle(color: AppConstant.appTextColor),),
             ]),
             Column(children: [
-              Text("Hi"),
-              Text("Hi"),
+              Text("audio",style: TextStyle(color: AppConstant.appTextColor),),
+              Text(audioLen,style: TextStyle(color: AppConstant.appTextColor),),
             ]),
           ],
         ),

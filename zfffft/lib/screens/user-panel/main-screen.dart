@@ -115,7 +115,9 @@ class MainScreen extends StatelessWidget {
                   children: 
                   FileData.map((e)=> FileCard(title: e.title!, coverUrl: e.coverUrl!,
                   ontap:(){
-                    Get.to(FileDetails());
+                    Get.to(FileDetails(
+                      file: e,
+                    ));
                   },
                   )).toList(),
                  )
