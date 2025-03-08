@@ -39,7 +39,7 @@ final VoidCallback ontap;
                         ),
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(10),
-                          child: Image.asset(
+                          child: Image.asset( // network 
                             coverUrl,
                             width: 100,
                           ),

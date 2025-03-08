@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:zfffft/FileDetails/FileDetalis.dart';
+import 'package:zfffft/controllers/FileController.dart';
 import 'package:zfffft/models/FileData.dart';
 import 'package:zfffft/screens/auth-ui/welcom-screen.dart';
 import 'package:zfffft/wedgit/FileCard.dart';
@@ -17,8 +18,10 @@ class MainScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    FileController fileController = Get.put(FileController());
     return Scaffold(
       appBar: AppBar(
+        iconTheme: IconThemeData(color: AppConstant.appTextColor),
         backgroundColor: AppConstant.appMainColor,
         title: Text(AppConstant.appMainName,
         style: TextStyle(
@@ -110,10 +113,11 @@ class MainScreen extends StatelessWidget {
                   ),
                 ],),
                 SizedBox(height: 10),
-                 
+                 //obx
                  Column(
                   children: 
-                  FileData.map((e)=> FileCard(title: e.title!, coverUrl: e.coverUrl!,
+                 /* fileController.fileData*/FileData
+                  .map((e)=> FileCard(title: e.title!, coverUrl: e.coverUrl!,
                   ontap:(){
                     Get.to(FileDetails(
                       file: e,

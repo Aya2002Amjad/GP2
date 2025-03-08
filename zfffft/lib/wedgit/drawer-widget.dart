@@ -4,6 +4,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:zfffft/controllers/FileController.dart';
+import 'package:zfffft/screens/addfile/AddFile.dart';
 import 'package:zfffft/screens/auth-ui/welcom-screen.dart';
 import 'package:zfffft/screens/user-panel/main-screen.dart';
 
@@ -16,7 +18,7 @@ class DrawerWidget extends StatefulWidget {
 }
 
 class _DrawerWidgetState extends State<DrawerWidget> {
-
+FileController fileController = Get.put(FileController());
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -37,14 +39,13 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                   const EdgeInsets.symmetric(horizontal: 10.0, vertical: 20.0),
               child: ListTile(
                 titleAlignment: ListTileTitleAlignment.center,
-                title: Text("username"),
+                title: Text("${fileController.fAuth.currentUser!.displayName}"),
                 subtitle: Text(
-                  "email",
+                  '${fileController.fAuth.currentUser!.email}',
                 ),
-                leading: CircleAvatar(
-                  radius: 22.0,
-                  backgroundColor: Colors.purple[100],
-                ),
+                leading: ClipRRect(
+                  borderRadius: BorderRadius.circular(100),
+                  child: Image.network('${fileController.fAuth.currentUser!.photoURL}')) 
               ),
             ),
             Divider(
@@ -101,7 +102,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
               ),
               child: ListTile(
                 onTap: () {
-                  //Get.to(() => AllProductsAScreen());
+                   Get.to(() => AddFilePage());
                 },
                 titleAlignment: ListTileTitleAlignment.center,
                 title: Text("Add file"),
