@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:zfffft/controllers/FileController.dart';
 import 'package:zfffft/screens/Notes/NoteScreen.dart';
+import 'package:zfffft/screens/Setteing/setting.dart';
 import 'package:zfffft/screens/addfile/AddFile.dart';
 import 'package:zfffft/screens/auth-ui/welcom-screen.dart';
 import 'package:zfffft/screens/user-panel/main-screen.dart';
@@ -69,35 +70,7 @@ FileController fileController = Get.put(FileController());
                 },
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 20.0,
-              ),
-              child: ListTile(
-                onTap: () {
-                 // Get.to(() => AllUsersScreen());
-                },
-                titleAlignment: ListTileTitleAlignment.center,
-                title: Text("Summarize"),
-                leading: Icon(Icons.summarize),
-                trailing: Icon(Icons.arrow_forward),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 20.0,
-              ),
-              child: ListTile(
-                onTap: () {
-                 // Get.to(() => AllCategoriesAScreen());
-                },
-                titleAlignment: ListTileTitleAlignment.center,
-                title: Text("ChatBot"),
-                leading: Icon(Icons.chat),
-                trailing: Icon(Icons.arrow_forward),
-              ),
-            ),
-            Padding(
+             Padding(
               padding: const EdgeInsets.symmetric(
                 horizontal: 20.0,
               ),
@@ -118,6 +91,49 @@ FileController fileController = Get.put(FileController());
                 horizontal: 20.0,
               ),
               child: ListTile(
+                onTap: () {
+                 // Get.to(() => AllUsersScreen());
+                },
+                titleAlignment: ListTileTitleAlignment.center,
+                title: Text("Summarize"),
+                leading: Icon(Icons.summarize),
+                trailing: Icon(Icons.arrow_forward),
+              ),
+            ),
+             Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 20.0,
+              ),
+              child: ListTile(
+                onTap: () {
+                   Get.to(() => AddFilePage());
+                },
+                titleAlignment: ListTileTitleAlignment.center,
+                title: Text("Translation"),
+                leading: Icon(Icons.translate),
+                trailing: Icon(Icons.arrow_forward),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 20.0,
+              ),
+              child: ListTile(
+                onTap: () {
+                 // Get.to(() => AllCategoriesAScreen());
+                },
+                titleAlignment: ListTileTitleAlignment.center,
+                title: Text("ChatBot"),
+                leading: Icon(Icons.chat),
+                trailing: Icon(Icons.arrow_forward),
+              ),
+            ),
+           
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 20.0,
+              ),
+              child: ListTile(
                 titleAlignment: ListTileTitleAlignment.center,
                 title: Text(
                   "Notes",
@@ -128,6 +144,38 @@ FileController fileController = Get.put(FileController());
                   Get.back();
                   Get.to(() => NoteScreen());
                 },
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 20.0,
+              ),
+              child: ListTile(
+                titleAlignment: ListTileTitleAlignment.center,
+                title: Text(
+                  "To Do List",
+                ),
+                leading: Icon(Icons.format_list_bulleted_add),
+                trailing: Icon(Icons.arrow_forward),
+                onTap: () {
+                  Get.back();
+                 // Get.to(() => NoteScreen());
+                },
+              ),
+            ),
+
+             Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 20.0,
+              ),
+              child: ListTile(
+                onTap: () {
+                   Get.to(() => SettingPage());
+                },
+                titleAlignment: ListTileTitleAlignment.center,
+                title: Text("settings"),
+                leading: Icon(Icons.settings),
+                trailing: Icon(Icons.arrow_forward),
               ),
             ),
             Padding(
