@@ -2,8 +2,10 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:zfffft/models/NoteModel.dart';
 import 'package:zfffft/utils/app-constant.dart';
+
 
 class NoteScreen extends StatefulWidget {
   const NoteScreen({super.key});
@@ -69,6 +71,8 @@ class _NoteScreenState extends State<NoteScreen> {
                   Map<String, dynamic> data =
                       documentSnapshot.data() as Map<String, dynamic>;
                   String noteText = data['note'];
+                  Timestamp timestamp = data['timestamp']; // Extract the timestamp
+                  String formattedTime = DateFormat('dd/MM/yyyy hh:mm a').format(timestamp.toDate());
 
                   return Card(
                     elevation: 4,
@@ -93,6 +97,21 @@ class _NoteScreenState extends State<NoteScreen> {
                             ),
                           ),
                           const SizedBox(height: 10),
+
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                                Align(
+                                  alignment: Alignment.bottomLeft,
+                                  child: Text(
+                                       formattedTime, // Display the timestamp here
+                                     style: const TextStyle(
+                                     color: Colors.grey,
+                                    fontSize: 10,
+                                   ),
+                                  ),
+                                ),
+
                           Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
@@ -106,7 +125,9 @@ class _NoteScreenState extends State<NoteScreen> {
                           )
                         ],
                       ),
+                     ]
                     ),
+                    )
                   );
                 });
           } else {
