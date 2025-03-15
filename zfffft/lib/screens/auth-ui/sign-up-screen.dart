@@ -38,6 +38,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               color: AppConstant.appTextColor,
             ),
           ),
+           iconTheme: IconThemeData(color: AppConstant.appTextColor),
         ),
         body: SingleChildScrollView(
           physics: BouncingScrollPhysics(),
@@ -213,7 +214,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             );
 
                             FirebaseAuth.instance.signOut();
-                            Get.offAll(() => SignInScreen());
+                            Get.to(() => SignInScreen());
                           }
                         }
 
@@ -233,7 +234,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   ),
                   ),
                   GestureDetector(
-                    onTap: ()=> Get.offAll(()=> SignInScreen()),
+                    onTap: ()=> Get.to(()=> SignInScreen()),
                     child: Text("Sign In",
                     style: TextStyle(
                       color: AppConstant.appMainColor,

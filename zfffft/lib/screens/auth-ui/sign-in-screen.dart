@@ -38,6 +38,7 @@ TextEditingController userPassword = TextEditingController();
               color: AppConstant.appTextColor,
             ),
           ),
+           iconTheme: IconThemeData(color: AppConstant.appTextColor),
         ),
         body: Container(
           child: Column(
@@ -145,7 +146,7 @@ TextEditingController userPassword = TextEditingController();
                            backgroundColor: AppConstant.appMainColor,
                             colorText: AppConstant.appTextColor,
                             );
-                            Get.offAll(()=>MainScreen());
+                            Get.to(()=>MainScreen());
                           }
                           else{
                              Get.snackbar("Error " , "Please verify your email before login",
@@ -180,7 +181,7 @@ TextEditingController userPassword = TextEditingController();
                 ),
                 ),
                 GestureDetector(
-                  onTap: ()=> Get.offAll(()=> SignUpScreen()),
+                  onTap: ()=> Get.to(()=> SignUpScreen()),
                   child: Text("Sign Up",
                   style: TextStyle(
                     color: AppConstant.appMainColor,

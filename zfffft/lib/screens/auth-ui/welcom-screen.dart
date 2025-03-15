@@ -86,7 +86,7 @@ class WelcomeScreen extends StatelessWidget {
                     style: TextStyle(color: AppConstant.appTextColor),
                   ),
                   onPressed: () {
-                    Get.offAll(() => SignInScreen());
+                    Get.to(() => SignInScreen());
                   },
                 ),
               ),

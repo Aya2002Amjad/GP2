@@ -68,6 +68,7 @@ FileController fileController = Get.put(FileController());
                 leading: Icon(Icons.home),
                 trailing: Icon(Icons.arrow_forward),
                  onTap: () {
+                  Get.back();
                   Get.to(() => MainScreen());
                 },
               ),
@@ -78,6 +79,7 @@ FileController fileController = Get.put(FileController());
               ),
               child: ListTile(
                 onTap: () {
+                  Get.back();
                    Get.to(() => AddFilePage());
                 },
                 titleAlignment: ListTileTitleAlignment.center,
@@ -94,6 +96,7 @@ FileController fileController = Get.put(FileController());
               ),
               child: ListTile(
                 onTap: () {
+                  Get.back();
                  // Get.to(() => AllUsersScreen());
                 },
                 titleAlignment: ListTileTitleAlignment.center,
@@ -108,6 +111,7 @@ FileController fileController = Get.put(FileController());
               ),
               child: ListTile(
                 onTap: () {
+                  Get.back();
                    Get.to(() => TranslationScreen());
                 },
                 titleAlignment: ListTileTitleAlignment.center,
@@ -122,6 +126,7 @@ FileController fileController = Get.put(FileController());
               ),
               child: ListTile(
                 onTap: () {
+                  Get.back();
                  // Get.to(() => AllCategoriesAScreen());
                 },
                 titleAlignment: ListTileTitleAlignment.center,
@@ -172,6 +177,7 @@ FileController fileController = Get.put(FileController());
               ),
               child: ListTile(
                 onTap: () {
+                  Get.back();
                    Get.to(() => SettingPage());
                 },
                 titleAlignment: ListTileTitleAlignment.center,
