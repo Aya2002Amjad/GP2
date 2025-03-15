@@ -7,6 +7,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:zfffft/controllers/FileController.dart';
 import 'package:zfffft/screens/Notes/NoteScreen.dart';
 import 'package:zfffft/screens/Setteing/setting.dart';
+import 'package:zfffft/screens/ToDoList/AddTodo.dart';
 import 'package:zfffft/screens/addfile/AddFile.dart';
 import 'package:zfffft/screens/auth-ui/welcom-screen.dart';
 import 'package:zfffft/screens/user-panel/main-screen.dart';
@@ -159,6 +160,7 @@ FileController fileController = Get.put(FileController());
                 trailing: Icon(Icons.arrow_forward),
                 onTap: () {
                   Get.back();
+                   Get.to(() => AddTodoScreen());
                  // Get.to(() => NoteScreen());
                 },
               ),
