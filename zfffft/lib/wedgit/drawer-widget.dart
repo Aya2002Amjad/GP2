@@ -8,6 +8,7 @@ import 'package:zfffft/controllers/FileController.dart';
 import 'package:zfffft/screens/Notes/NoteScreen.dart';
 import 'package:zfffft/screens/Setteing/setting.dart';
 import 'package:zfffft/screens/ToDoList/AddTodo.dart';
+import 'package:zfffft/screens/Translation/translationScreen.dart';
 import 'package:zfffft/screens/addfile/AddFile.dart';
 import 'package:zfffft/screens/auth-ui/welcom-screen.dart';
 import 'package:zfffft/screens/user-panel/main-screen.dart';
@@ -107,7 +108,7 @@ FileController fileController = Get.put(FileController());
               ),
               child: ListTile(
                 onTap: () {
-                   Get.to(() => AddFilePage());
+                   Get.to(() => TranslationScreen());
                 },
                 titleAlignment: ListTileTitleAlignment.center,
                 title: Text("Translation"),
@@ -161,7 +162,6 @@ FileController fileController = Get.put(FileController());
                 onTap: () {
                   Get.back();
                    Get.to(() => AddTodoScreen());
-                 // Get.to(() => NoteScreen());
                 },
               ),
             ),
