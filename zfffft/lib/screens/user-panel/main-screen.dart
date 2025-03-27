@@ -1,5 +1,3 @@
-// ignore_for_file: file_names
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -7,6 +5,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:intl/intl.dart'; // To format the time
 import 'package:zfffft/FileDetails/FileDetalis.dart';
 import 'package:zfffft/controllers/FileController.dart';
+import 'package:zfffft/screens/addfile/AddFile.dart';
 import 'package:zfffft/screens/auth-ui/welcom-screen.dart';
 import 'package:zfffft/utils/app-constant.dart';
 import 'package:zfffft/wedgit/FileCard.dart';
@@ -58,7 +57,7 @@ class MainScreen extends StatelessWidget {
       drawer: DrawerWidget(),
       body: RefreshIndicator(
         onRefresh: () async {
-          fileController.getUserFile();
+          await fileController.getUserFile();
         },
         child: ListView(
           padding: EdgeInsets.zero,
@@ -82,12 +81,15 @@ class MainScreen extends StatelessWidget {
                   ),
                   SizedBox(height: 10),
                   Text(
-                    "Time to read files and enhance your knowledge",
+                    "Time to enhance your knowledge",
                     style: TextStyle(
                         color: AppConstant.appTextColor, fontSize: 11),
                   ),
                   SizedBox(height: 20),
-                  Search(),
+                  Search(
+                    onSearch: fileController.searchFiles,
+                    onCancel: fileController.clearSearch,
+                  ),
                 ],
               ),
             ),
@@ -108,7 +110,27 @@ class MainScreen extends StatelessWidget {
                   SizedBox(height: 10),
                   // Display User-Uploaded Files
                   Obx(() {
-                    if (fileController.currentUserFiles.isEmpty) {
+                    final filesToShow = fileController.searchResults.isNotEmpty
+                        ? fileController.searchResults
+                        : fileController.currentUserFiles;
+
+                    if (fileController.searchResults.isEmpty &&
+                        fileController.currentUserFiles.isNotEmpty) {
+                      return Center(
+                        child: Padding(
+                          padding: EdgeInsets.all(20),
+                          child: Text(
+                            'No files found with that title.',
+                            style: TextStyle(
+                                color: AppConstant.appMainColor,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 15),
+                          ),
+                        ),
+                      );
+                    }
+
+                    if (filesToShow.isEmpty) {
                       return Center(
                         child: Padding(
                           padding: EdgeInsets.all(20),
@@ -119,13 +141,13 @@ class MainScreen extends StatelessWidget {
                         ),
                       );
                     }
+
                     return ListView.builder(
-                      shrinkWrap: true, // Allow it to fit inside Column
-                      physics:
-                          NeverScrollableScrollPhysics(), // Prevents nested scrolling issues
-                      itemCount: fileController.currentUserFiles.length,
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: filesToShow.length,
                       itemBuilder: (context, index) {
-                        final file = fileController.currentUserFiles[index];
+                        final file = filesToShow[index];
                         return FileCard(
                           title: file.title!,
                           coverUrl: file.coverUrl!,
@@ -133,12 +155,19 @@ class MainScreen extends StatelessWidget {
                         );
                       },
                     );
-                  }),
+                  })
                 ],
               ),
             ),
           ],
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Get.to(() => AddFilePage()); // Navigate to the AddFileScreen
+        },
+        backgroundColor: AppConstant.appMainColor,
+        child: Icon(Icons.add, color: AppConstant.appTextColor),
       ),
     );
   }

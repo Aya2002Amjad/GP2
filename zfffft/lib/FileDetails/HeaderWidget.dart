@@ -1,17 +1,14 @@
-
-// ignore_for_file: avoid_print
+// ignore_for_file: file_names
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart'; // Import GetX
-import 'package:zfffft/models/file_model.dart';
-import 'package:zfffft/utils/app-constant.dart';
+import 'package:zfffft/utils/app-constant.dart' show AppConstant;
 import '../../Componant/BackButton.dart';
 
-class FileDetailHeader extends StatefulWidget {
-  
+
+class FileDetailHeader extends StatelessWidget {
   final String coverUrl;
   final String title;
   final String description;
@@ -20,7 +17,7 @@ class FileDetailHeader extends StatefulWidget {
   final String audioLen;
   final String fileId; // File document ID in Firestore
   final String fileurl;
-
+  final String userId;
   const FileDetailHeader({
     super.key,
     required this.coverUrl,
@@ -31,41 +28,126 @@ class FileDetailHeader extends StatefulWidget {
     required this.audioLen,
     required this.fileId,
     required this.fileurl,
+    required this.userId,
   });
 
-  @override
-  State<FileDetailHeader> createState() => _FileDetailHeaderState();
-}
+  // Function to delete the file from Firebase
+  Future<void> deleteFile(
+      BuildContext context, String fileId, String userId) async {
+    try {
+      print(
+          'Starting deletion process for fileId: $fileId and userId: $userId');
 
-class _FileDetailHeaderState extends State<FileDetailHeader> {
-  
+      // Reference to Firestore collections
+      final firestore = FirebaseFirestore.instance;
+      print('Firestore instance initialized.');
 
-void deleteDocument(String documentId) async {
-  try {
-    await FirebaseFirestore.instance
-        .collection('File') // Replace with your collection name
-        .doc(documentId) // The document ID of the document to delete
-        .delete();
+      // Query the 'File' collection to find the document with the matching 'id' field
+      print('Querying Firestore for fileId: $fileId...');
+      final querySnapshot = await firestore
+          .collection('File')
+          .where('id', isEqualTo: fileId)
+          .limit(1)
+          .get();
 
-         await FirebaseFirestore.instance
-        .collection('userFile') // Replace with your collection name
-        .doc()
-        .collection('Files')
-        .doc('p28GAxUW8aKx0ExhCacp') // The document ID of the document to delete
-        .delete();
-     // Show a confirmation message using Get.snackbar
+      // Check if the document exists
+      if (querySnapshot.docs.isEmpty) {
+        print('File document does not exist for fileId: $fileId');
+        Get.snackbar(
+          'Error',
+          'File document does not exist.',
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.red,
+          colorText: Colors.white,
+        );
+        return;
+      }
+
+      // Get the document
+      final fileDoc = querySnapshot.docs.first;
+      final fileDocRef = fileDoc.reference;
+      print('File document found: ${fileDoc.id}');
+
+      // Debugging: Print document data
+      print('Document Data: ${fileDoc.data()}');
+
+      // Retrieve coverUrl and bookUrl (with null safety)
+      final coverUrl = fileDoc['coverUrl'] as String? ?? '';
+      final bookUrl = fileDoc['bookUrl'] as String? ?? '';
+      print('Cover URL: $coverUrl');
+      print('Book URL: $bookUrl');
+
+      // Delete the file document from the 'File' collection
+      print('Deleting document from File collection...');
+      await fileDocRef.delete();
+      print('Document deleted from File collection.');
+
+      // Delete the file document from the 'userFile' collection
+      print('Querying userFile collection for fileId: $fileId...');
+      final userFileDocRef = firestore
+          .collection('userFile')
+          .doc(userId)
+          .collection('Files')
+          .where('id', isEqualTo: fileId)
+          .limit(1);
+      final userFileQuerySnapshot = await userFileDocRef.get();
+
+      if (userFileQuerySnapshot.docs.isNotEmpty) {
+        print('Deleting document from userFile collection...');
+        await userFileQuerySnapshot.docs.first.reference.delete();
+        print('Document deleted from userFile collection.');
+      } else {
+        print('Document not found in userFile collection.');
+      }
+
+      // Delete the cover image from Firebase Storage (if applicable)
+      if (coverUrl.isNotEmpty) {
+        print('Deleting cover image from Firebase Storage...');
+        final coverFileName = coverUrl.split('%2F').last.split('?').first;
+        final storageRef =
+            FirebaseStorage.instance.ref().child('Images/$coverFileName');
+        await storageRef.delete();
+        print('Cover image deleted: $coverFileName');
+      } else {
+        print('Cover URL is empty. Skipping cover image deletion.');
+      }
+
+      // Delete the PDF file from Firebase Storage (if applicable)
+      if (bookUrl.isNotEmpty) {
+        print('Deleting PDF file from Firebase Storage...');
+        final pdfFileName = bookUrl.split('%2F').last.split('?').first;
+        final storagePDF =
+            FirebaseStorage.instance.ref().child('Pdf/$pdfFileName');
+        await storagePDF.delete();
+        print('PDF file deleted: $pdfFileName');
+      } else {
+        print('Book URL is empty. Skipping PDF file deletion.');
+      }
+
+      // Show a confirmation message using Get.snackbar
       Get.snackbar(
         'Success',
         'File deleted successfully',
         snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: AppConstant.appMainColor,
+        backgroundColor: Colors.green,
         colorText: Colors.white,
       );
-    print("Document successfully deleted!");
-  } catch (e) {
-    print("Error deleting document: $e");
+      print('File deletion process completed successfully.');
+
+      // Navigate back after deletion
+      Navigator.pop(context);
+    } catch (e) {
+      // Handle errors
+      print('Error during deletion: $e');
+      Get.snackbar(
+        'Error',
+        'Failed to delete file: $e',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
+    }
   }
-}
 
   @override
   Widget build(BuildContext context) {
@@ -78,7 +160,7 @@ void deleteDocument(String documentId) async {
             MyBackbutton(),
             IconButton(
               onPressed: () async {
-               deleteDocument('Ls8WB15Q3uz74A2z9PfO');
+                await deleteFile(context, fileId, userId);
               },
               icon: Icon(
                 Icons.delete,
@@ -94,7 +176,7 @@ void deleteDocument(String documentId) async {
             ClipRRect(
               borderRadius: BorderRadius.circular(20),
               child: Image.network(
-                widget.coverUrl,
+                coverUrl,
                 width: 170,
               ),
             ),
@@ -102,7 +184,7 @@ void deleteDocument(String documentId) async {
         ),
         const SizedBox(height: 30),
         Text(
-          widget.title,
+          title,
           maxLines: 1,
           textAlign: TextAlign.center,
           style: TextStyle(
@@ -122,7 +204,7 @@ void deleteDocument(String documentId) async {
                   style: TextStyle(color: AppConstant.appTextColor),
                 ),
                 Text(
-                  widget.pages,
+                  pages,
                   style: TextStyle(color: AppConstant.appTextColor),
                 ),
               ],
@@ -134,7 +216,7 @@ void deleteDocument(String documentId) async {
                   style: TextStyle(color: AppConstant.appTextColor),
                 ),
                 Text(
-                  widget.language,
+                  language,
                   style: TextStyle(color: AppConstant.appTextColor),
                 ),
               ],
@@ -145,7 +227,7 @@ void deleteDocument(String documentId) async {
                   "Audio",
                   style: TextStyle(color: AppConstant.appTextColor),
                 ),
-                widget.audioLen.isEmpty
+                audioLen.isEmpty
                     ? Text(
                         "No Audio for this file",
                         style: TextStyle(
@@ -154,7 +236,7 @@ void deleteDocument(String documentId) async {
                         ),
                       )
                     : Text(
-                        widget.audioLen,
+                        audioLen,
                         style: TextStyle(color: AppConstant.appTextColor),
                       ),
               ],
