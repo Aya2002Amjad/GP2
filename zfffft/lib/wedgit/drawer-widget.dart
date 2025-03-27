@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:zfffft/GeminiModelSummarizer/summaryScreen.dart';
 import 'package:zfffft/controllers/FileController.dart';
 import 'package:zfffft/screens/Notes/NoteScreen.dart';
 import 'package:zfffft/screens/Setteing/setting.dart';
@@ -97,7 +98,7 @@ FileController fileController = Get.put(FileController());
               child: ListTile(
                 onTap: () {
                   Get.back();
-                 // Get.to(() => AllUsersScreen());
+                 Get.to(() => Summaryscreen());
                 },
                 titleAlignment: ListTileTitleAlignment.center,
                 title: Text("Summarize"),
