@@ -58,6 +58,9 @@ dependencies:
   docx_to_text: ^1.0.1
   flutter_gemini: ^3.0.0
   dash_chat_2: ^0.0.21
+  shared_preferences: ^2.5.3
+  syncfusion_flutter_pdf: ^29.1.33
+  
 
 dev_dependencies:
   flutter_test:

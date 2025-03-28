@@ -18,7 +18,7 @@ class FireStore_Datasource {
           .set({"id": _auth.currentUser!.uid, "email": email});
       return true;
     } catch (e) {
-      return true;
+      return true; 
     }
   }
 

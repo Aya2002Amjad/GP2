@@ -129,7 +129,7 @@ class FileDetailHeader extends StatelessWidget {
         'Success',
         'File deleted successfully',
         snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.green,
+        backgroundColor: AppConstant.appMainColor,
         colorText: Colors.white,
       );
       print('File deletion process completed successfully.');
@@ -143,7 +143,7 @@ class FileDetailHeader extends StatelessWidget {
         'Error',
         'Failed to delete file: $e',
         snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.red,
+        backgroundColor: AppConstant.appMainColor,
         colorText: Colors.white,
       );
     }
@@ -175,10 +175,11 @@ class FileDetailHeader extends StatelessWidget {
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(20),
-              child: Image.network(
+              child: (coverUrl!='')?
+              Image.network(
                 coverUrl,
                 width: 170,
-              ),
+              ):Image.asset('assests/images/cover.jpeg', width: 170,),
             ),
           ],
         ),

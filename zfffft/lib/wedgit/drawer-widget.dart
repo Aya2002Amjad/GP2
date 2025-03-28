@@ -7,6 +7,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:zfffft/ChatBot/chatbotScreen.dart';
 import 'package:zfffft/GeminiModelSummarizer/summaryScreen.dart';
 import 'package:zfffft/controllers/FileController.dart';
+import 'package:zfffft/controllers/google-sign-in-controller.dart';
 import 'package:zfffft/screens/Notes/NoteScreen.dart';
 import 'package:zfffft/screens/Setteing/setting.dart';
 import 'package:zfffft/screens/ToDoList/AddTodo.dart';
@@ -25,6 +26,7 @@ class DrawerWidget extends StatefulWidget {
 
 class _DrawerWidgetState extends State<DrawerWidget> {
 FileController fileController = Get.put(FileController());
+ GoogleSignInController googleSignInController = Get.put(GoogleSignInController());
   @override
   Widget build(BuildContext context) {
     return Padding(
