@@ -25,6 +25,17 @@ class _FilePageState extends State<FilePage> {
     _pdfViewerController = PdfViewerController();
   }
 
+
+void _zoomIn() {
+    _pdfViewerController.zoomLevel = _pdfViewerController.zoomLevel + 0.25;
+  }
+
+  void _zoomOut() {
+    if (_pdfViewerController.zoomLevel > 1.0) {
+      _pdfViewerController.zoomLevel = _pdfViewerController.zoomLevel - 0.25;
+    }
+  }
+ 
   @override
   Widget build(BuildContext context) {
     PdfController pdfController = Get.put(PdfController());
@@ -97,6 +108,22 @@ class _FilePageState extends State<FilePage> {
                   _pdfViewerController.nextPage();
                 },
               ),
+
+
+              IconButton(
+                icon: Icon(Icons.zoom_in, color: AppConstant.appMainColor),
+                onPressed: () {
+                  _zoomIn();
+                },
+              ),
+
+               IconButton(
+                icon: Icon(Icons.zoom_out, color: AppConstant.appMainColor),
+                onPressed: () {
+                  _zoomOut();
+                },
+              ),
+
             ],
           ),
           Expanded(
