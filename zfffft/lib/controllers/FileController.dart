@@ -77,7 +77,7 @@ class FileController extends GetxController {
     } catch (e) {
       print("Error fetching all files: $e");
     }
-  }
+  } 
 
 // Search files by title
   void searchFiles(String query) {

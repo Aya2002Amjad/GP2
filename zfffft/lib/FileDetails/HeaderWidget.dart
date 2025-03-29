@@ -132,6 +132,7 @@ class FileDetailHeader extends StatelessWidget {
       );
       print('File deletion process completed successfully.');
 
+      
       // Navigate back after deletion
       Navigator.pop(context);
     } catch (e) {
