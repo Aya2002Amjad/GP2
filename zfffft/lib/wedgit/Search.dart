@@ -29,7 +29,7 @@ class _SearchState extends State<Search> {
       child: Row(
         children: [
           const SizedBox(width: 10),
-          const Icon(Icons.search),
+          const Icon(Icons.search , color: AppConstant.appMainColor,),
           Expanded(
             child: TextField(
               controller: searchController,
@@ -42,6 +42,7 @@ class _SearchState extends State<Search> {
               },
               decoration: const InputDecoration(
                 hintText: 'Search here ...',
+                 hintStyle: TextStyle(color: AppConstant.appMainColor),
                 border: OutlineInputBorder(
                   borderSide: BorderSide.none,
                 ),
@@ -49,7 +50,7 @@ class _SearchState extends State<Search> {
             ),
           ),
           IconButton(
-            icon: const Icon(Icons.cancel),
+            icon: const Icon(Icons.cancel , color: AppConstant.appMainColor,),
             onPressed: () {
               searchController.clear();
               fileController.clearSearch();

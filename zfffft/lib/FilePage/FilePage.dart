@@ -8,7 +8,8 @@ import 'package:zfffft/utils/app-constant.dart';
 
 class FilePage extends StatefulWidget {
   final String fileUrl;
-  const FilePage({super.key, required this.fileUrl});
+  final String title;
+  const FilePage({super.key, required this.fileUrl, required this.title});
 
   @override
   _FilePageState createState() => _FilePageState();
@@ -18,7 +19,7 @@ class _FilePageState extends State<FilePage> {
   final TextEditingController _searchController = TextEditingController();
   bool _isSearching = false;
   late PdfViewerController _pdfViewerController;
-
+  
   @override
   void initState() {
     super.initState();
@@ -40,7 +41,7 @@ void _zoomIn() {
   Widget build(BuildContext context) {
     PdfController pdfController = Get.put(PdfController());
 
-    return Scaffold(
+    return Scaffold( 
       appBar: AppBar(
         leading: BackButton(
           color: AppConstant.appTextColor,
@@ -61,7 +62,7 @@ void _zoomIn() {
                 },
               )
             : Text(
-                'File Title',
+                widget.title,
                 style: TextStyle(
                   color: AppConstant.appTextColor,
                 ),
@@ -138,6 +139,10 @@ void _zoomIn() {
     );
   }
 }
+
+
+
+
 
 
 

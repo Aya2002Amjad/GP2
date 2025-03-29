@@ -45,19 +45,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           child: Container(
             child: Column(
               children: [
-                 SizedBox(
-                  height: Get.height / 20,
-                ),
-                  Container(
-                    alignment: Alignment.center,
-                    child: Text("Welcom to my app",
-                    style: TextStyle(
-                    color: AppConstant.appMainColor,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16,
-          
-                  ),)    
-                ),
+                  
                SizedBox(
                   height: Get.height / 20,
                 ),
@@ -72,10 +60,24 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         keyboardType: TextInputType.emailAddress,
                         decoration: InputDecoration(
                             hintText: "Email",
-                            prefixIcon: Icon(Icons.email),
+                            hintStyle: TextStyle(color: Colors.grey),
+                            prefixIcon: Icon(Icons.email, color: AppConstant.appMainColor,),
                             contentPadding: EdgeInsets.only(top: 2.0, left: 8.0),
                             border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10.0))),
+                                borderRadius: BorderRadius.circular(10.0)),
+                                
+                          enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                          borderSide: BorderSide(
+                          color: AppConstant.appMainColor, 
+                          width: 1.5)),
+
+                          focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                          borderSide: BorderSide(
+                          color: AppConstant.appMainColor,  
+                          width: 2.0))     
+                       ),
                       ),
                     )),
                      Container(
@@ -89,10 +91,24 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         keyboardType: TextInputType.name,
                         decoration: InputDecoration(
                             hintText: "UserName",
-                            prefixIcon: Icon(Icons.person),
+                            hintStyle: TextStyle(color:Colors.grey),
+                            prefixIcon: Icon(Icons.person, color: AppConstant.appMainColor,),
                             contentPadding: EdgeInsets.only(top: 2.0, left: 8.0),
                             border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10.0))),
+                                borderRadius: BorderRadius.circular(10.0)),
+                          
+                          enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                          borderSide: BorderSide(
+                          color: AppConstant.appMainColor, 
+                          width: 1.5)),
+
+                          focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                          borderSide: BorderSide(
+                          color: AppConstant.appMainColor,  
+                          width: 2.0))    
+                        ),
                       ),
                     )),
                      Container(
@@ -106,10 +122,24 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         keyboardType: TextInputType.number,
                         decoration: InputDecoration(
                             hintText: "Phone",
-                            prefixIcon: Icon(Icons.phone),
+                            hintStyle: TextStyle(color: Colors.grey),
+                            prefixIcon: Icon(Icons.phone, color: AppConstant.appMainColor,),
                             contentPadding: EdgeInsets.only(top: 2.0, left: 8.0),
                             border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10.0))),
+                                borderRadius: BorderRadius.circular(10.0)),
+
+                          enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                          borderSide: BorderSide(
+                          color: AppConstant.appMainColor, 
+                          width: 1.5)),
+
+                          focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                          borderSide: BorderSide(
+                          color: AppConstant.appMainColor,  
+                          width: 2.0))     
+                         ),
                       ),
                     )),
                 Container(
@@ -125,18 +155,32 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         keyboardType: TextInputType.visiblePassword,
                         decoration: InputDecoration(
                             hintText: "Password",
-                            prefixIcon: Icon(Icons.password),
+                            hintStyle: TextStyle(color: Colors.grey),
+                            prefixIcon: Icon(Icons.password, color: AppConstant.appMainColor,),
                             suffixIcon: GestureDetector(
                               onTap: () {
                                 _signUpController.isPasswordVisible.toggle();
                               },
-                              child: _signUpController.isPasswordVisible.value ? 
-                              Icon(Icons.visibility_off) :
-                              Icon(Icons.visibility)
+                              child: _signUpController.isPasswordVisible.value 
+                              ? Icon(Icons.visibility_off, color: AppConstant.appMainColor,)
+                              : Icon(Icons.visibility, color: AppConstant.appMainColor,)
                               ),
                             contentPadding: EdgeInsets.only(top: 2.0, left: 8.0),
                             border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10.0))),
+                                borderRadius: BorderRadius.circular(10.0)),
+                                
+                          enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                          borderSide: BorderSide(
+                          color: AppConstant.appMainColor, 
+                          width: 1.5)),
+
+                          focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                          borderSide: BorderSide(
+                          color: AppConstant.appMainColor,  
+                          width: 2.0))    
+                                ),
                       ),)
                     )),
 
@@ -151,10 +195,24 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         keyboardType: TextInputType.streetAddress,
                         decoration: InputDecoration(
                             hintText: "City",
-                            prefixIcon: Icon(Icons.location_pin),
+                            hintStyle: TextStyle(color: Colors.grey),
+                            prefixIcon: Icon(Icons.location_pin, color: AppConstant.appMainColor,),
                             contentPadding: EdgeInsets.only(top: 2.0, left: 8.0),
                             border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10.0))),
+                                borderRadius: BorderRadius.circular(10.0)),
+                            
+                          enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                          borderSide: BorderSide(
+                          color: AppConstant.appMainColor, 
+                          width: 1.5)),
+
+                          focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                          borderSide: BorderSide(
+                          color: AppConstant.appMainColor,  
+                          width: 2.0))    
+                       ),
                       ),
                     )),
                 

@@ -60,12 +60,25 @@ TextEditingController userPassword = TextEditingController();
                       keyboardType: TextInputType.emailAddress,
                       decoration: InputDecoration(
                           hintText: "Email",
-                          prefixIcon: Icon(Icons.email),
+                          hintStyle: TextStyle(color: Colors.grey),
+                          prefixIcon: Icon(Icons.email , color: AppConstant.appMainColor,),
                           contentPadding: EdgeInsets.only(top: 2.0, left: 8.0),
                           border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10.0))),
-                    ),
-                  )),
+                              borderRadius: BorderRadius.circular(10.0)),
+                          
+                          enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                          borderSide: BorderSide(
+                          color: AppConstant.appMainColor, 
+                          width: 1.5)),
+
+                          focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                          borderSide: BorderSide(
+                          color: AppConstant.appMainColor,  
+                          width: 2.0))
+                          ))
+                          )),
               Container(
                   margin: EdgeInsets.symmetric(horizontal: 5.0),
                   width: Get.width,
@@ -79,16 +92,31 @@ TextEditingController userPassword = TextEditingController();
                       keyboardType: TextInputType.emailAddress,
                       decoration: InputDecoration(
                           hintText: "Password",
-                          prefixIcon: Icon(Icons.password),
+                          hintStyle:TextStyle(color: Colors.grey),
+                          prefixIcon: Icon(Icons.password, color: AppConstant.appMainColor,),
                           suffixIcon: GestureDetector(
                             onTap: (){
                               _signInController.isPasswordVisible.toggle();
                             },
-                            child: _signInController.isPasswordVisible.value? Icon(Icons.visibility_off) : Icon(Icons.visibility)
+                            child: _signInController.isPasswordVisible.value? Icon(Icons.visibility_off,  color: AppConstant.appMainColor) 
+                            : Icon(Icons.visibility,  color: AppConstant.appMainColor)
                             ),
                           contentPadding: EdgeInsets.only(top: 2.0, left: 8.0),
                           border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10.0))),
+                              borderRadius: BorderRadius.circular(10.0)),
+                          
+                          enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                          borderSide: BorderSide(
+                          color: AppConstant.appMainColor, 
+                          width: 1.5)),
+
+                          focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                          borderSide: BorderSide(
+                          color: AppConstant.appMainColor,  
+                          width: 2.0))
+                              ),
                     ),
                     )
                   )),

@@ -7,7 +7,6 @@ class FileModel {
   String? fileurl;
   String? category;
   String? coverUrl;
-  int? audioLen;
 
   FileModel(
       {this.id,
@@ -17,8 +16,7 @@ class FileModel {
       this.language,
       this.fileurl,
       this.category,
-      this.coverUrl,
-      this.audioLen});
+      this.coverUrl});
 
   FileModel.fromJson(Map<String, dynamic> json) {
     if (json["id"] is String) {
@@ -45,9 +43,6 @@ class FileModel {
     if (json["categoryd"] is String) {
       category = json["category"];
     }
-    if (json["audioLen"] is int) {
-      audioLen = json["audioLen"];
-    }
   }
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> _data = <String, dynamic>{};
@@ -59,7 +54,6 @@ class FileModel {
     _data["bookUrl"] = fileurl;
     _data["category"] = category;
     _data["coverUrl"] = coverUrl;
-    _data["audioLen"] = audioLen;
     return _data;
   }
 }

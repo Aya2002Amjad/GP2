@@ -20,7 +20,7 @@ class WelcomeScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: AppConstant.appMainColor,
         title: Text(
-          "Welcome to my app",
+          "Welcome to study friend app",
           style: TextStyle(
             color: AppConstant.appTextColor,
           ),
@@ -39,7 +39,7 @@ class WelcomeScreen extends StatelessWidget {
                 margin: EdgeInsets.only(top: 20.0),
                 child: Text(
                   "Happy Studing ",
-                  style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
+                  style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold , color: AppConstant.appTextColor2),
                 )),
             SizedBox(
               height: Get.height / 12,
@@ -80,7 +80,7 @@ class WelcomeScreen extends StatelessWidget {
                   borderRadius: BorderRadius.circular(20.0),
                 ),
                 child: TextButton.icon(
-                  icon: Icon(Icons.email),
+                  icon: Icon(Icons.email , color: Colors.white,),
                   label: Text(
                     "Sign in with Email",
                     style: TextStyle(color: AppConstant.appTextColor),
