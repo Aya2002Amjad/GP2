@@ -1,6 +1,7 @@
 // ignore_for_file: deprecated_member_use, prefer_final_fields
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:zfffft/Screens/ToDoList/firestorTodo.dart';
 import 'package:zfffft/utils/app-constant.dart';
 
@@ -54,6 +55,19 @@ class _AddTaskState extends State<AddTask> {
                 backgroundColor: AppConstant.appMainColor,
                 minimumSize: Size(170, 48)),
             onPressed: () {
+              if (title.text.trim().isEmpty) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text(
+                  'Please Enter title!',
+                  style: TextStyle(color: Colors.white),
+                ),
+                backgroundColor: AppConstant.appMainColor, 
+              ),
+            );
+            return;
+              }
+
               FireStore_Datasource().AddNote(subtitle.text, title.text, indexx);
               Navigator.pop(context);
             },
@@ -69,7 +83,7 @@ class _AddTaskState extends State<AddTask> {
               Navigator.pop(context);
             },
             child: Text(
-              "Cansel",
+              "Cancel",
               style: TextStyle(color: AppConstant.appTextColor),
             )),
       ],

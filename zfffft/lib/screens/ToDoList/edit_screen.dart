@@ -63,6 +63,19 @@ class _EditScreenState extends State<EditScreen> {
                 backgroundColor: AppConstant.appMainColor,
                 minimumSize: Size(170, 48)),
             onPressed: () {
+               if (title!.text.trim().isEmpty) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text(
+                  'Please Enter title!',
+                  style: TextStyle(color: Colors.white),
+                ),
+                backgroundColor: AppConstant.appMainColor, 
+              ),
+            );
+            return;
+              }
+
               FireStore_Datasource().Update_task(
                   widget._task.id, indexx, title!.text, subtitle!.text);
               Navigator.pop(context);
@@ -79,7 +92,7 @@ class _EditScreenState extends State<EditScreen> {
               Navigator.pop(context);
             },
             child: Text(
-              "Cansel",
+              "Cancel",
               style: TextStyle(color: AppConstant.appTextColor),
             )),
       ],
