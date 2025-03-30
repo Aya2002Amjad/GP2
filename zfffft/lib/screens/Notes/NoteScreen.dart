@@ -71,8 +71,8 @@ class _NoteScreenState extends State<NoteScreen> {
             style: TextStyle(color: AppConstant.appTextColor),
           )),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: AppConstant.appMainColor,
-        elevation: 2,
+        backgroundColor: AppConstant.appMainColor.withOpacity(0.6),
+        //elevation: 2,
         onPressed: openNoteBox,
         child: const Icon(Icons.add, color: AppConstant.appTextColor),
       ),

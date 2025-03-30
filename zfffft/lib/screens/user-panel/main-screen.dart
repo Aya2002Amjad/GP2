@@ -166,7 +166,7 @@ class MainScreen extends StatelessWidget {
         onPressed: () {
           Get.to(() => AddFilePage()); // Navigate to the AddFileScreen
         },
-        backgroundColor: AppConstant.appMainColor,
+        backgroundColor: AppConstant.appMainColor.withOpacity(0.7),
         child: Icon(Icons.add, color: AppConstant.appTextColor),
       ),
     );

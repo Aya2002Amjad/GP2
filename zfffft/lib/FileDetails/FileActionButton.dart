@@ -6,11 +6,15 @@ import 'package:zfffft/FilePage/FilePage.dart';
 import 'package:zfffft/utils/app-constant.dart';
 
 
-
 class Fileactionbutton extends StatelessWidget {
   final String fileUrl;
   final String title;
-  const Fileactionbutton({super.key, required this.fileUrl, required this.title});
+  final String fileid;
+  const Fileactionbutton(
+      {super.key,
+      required this.fileUrl,
+      required this.title,
+      required this.fileid});
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +22,6 @@ class Fileactionbutton extends StatelessWidget {
       height: 60,
       padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
       decoration: BoxDecoration(
-          
           color: AppConstant.appMainColor,
           borderRadius: BorderRadius.circular(15)),
       child: Row(
@@ -27,7 +30,9 @@ class Fileactionbutton extends StatelessWidget {
           InkWell(
             onTap: () {
               Get.to(FilePage(
-                fileUrl: fileUrl, title: title,
+                fileUrl: fileUrl,
+                title: title,
+                fileid: fileid,
               ));
             },
             child: Row(
@@ -45,7 +50,6 @@ class Fileactionbutton extends StatelessWidget {
               ],
             ),
           ),
-         
         ],
       ),
     );

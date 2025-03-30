@@ -16,7 +16,7 @@ class FileDetails extends StatelessWidget {
   Widget build(BuildContext context) {
     // Handle potential null values safely
     String coverUrl = file.coverUrl ?? "";
-    String title = file.title ??"Unknown Title";
+    String title = file.title ?? "Unknown Title";
     String description = file.description ?? "No description available";
     String pages = file.pages?.toString() ?? "Unknown";
     String language = file.language ?? "Unknown";
@@ -59,11 +59,16 @@ class FileDetails extends StatelessWidget {
                   SizedBox(height: 10),
                   Text(
                     description,
-                    style: TextStyle(color: AppConstant.appMainColor, fontSize: 20),
+                    style: TextStyle(
+                        color: AppConstant.appMainColor, fontSize: 20),
                   ),
                   SizedBox(height: 160),
                   if (fileUrl.isNotEmpty)
-                    Fileactionbutton(fileUrl: fileUrl, title: title,)
+                    Fileactionbutton(
+                      fileUrl: fileUrl,
+                      title: title,
+                      fileid: fileId,
+                    )
                   else
                     Text("No file URL available",
                         style: TextStyle(color: Colors.red, fontSize: 18)),
