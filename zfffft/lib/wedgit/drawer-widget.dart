@@ -1,4 +1,4 @@
-// ignore_for_file: file_names, prefer_const_constructors, prefer_const_literals_to_create_immutables, sort_child_properties_last, no_leading_underscores_for_local_identifiers
+// ignore_for_file: file_names, prefer_const_constructors, prefer_const_literals_to_create_immutables, sort_child_properties_last, no_leading_underscores_for_local_identifiers, unnecessary_string_interpolations, unnecessary_string_interpolations, unnecessary_string_interpolations
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -29,6 +29,9 @@ FileController fileController = Get.put(FileController());
  GoogleSignInController googleSignInController = Get.put(GoogleSignInController());
   @override
   Widget build(BuildContext context) {
+     // Get user's first name
+    String userName = fileController.fAuth.currentUser?.email ?? "";
+    String firstName = userName.split('@').first; // Getting only the first name
     return Padding(
       padding: EdgeInsets.only(top: Get.height / 25),
       child: Drawer(
@@ -47,13 +50,20 @@ FileController fileController = Get.put(FileController());
                   const EdgeInsets.symmetric(horizontal: 10.0, vertical: 20.0),
               child: ListTile(
                 titleAlignment: ListTileTitleAlignment.center,
-                title: Text("${fileController.fAuth.currentUser!.displayName}"),
+                title: Text("${fileController.fAuth.currentUser?.displayName ?? firstName}",),
                 subtitle: Text(
                   '${fileController.fAuth.currentUser!.email}',
                 ),
                 leading: ClipRRect(
                   borderRadius: BorderRadius.circular(100),
-                  child: Image.network('${fileController.fAuth.currentUser!.photoURL}')) 
+                  child: Image.network(
+                       fileController.fAuth.currentUser?.photoURL ??
+                           '', // Check if photoURL is available
+                       errorBuilder: (context, error, stackTrace) {
+                         return Image.asset(
+                             'assests/images/default_profile.png'); // Local image for email users
+                       },
+                     ),) 
               ),
             ),
             Divider(

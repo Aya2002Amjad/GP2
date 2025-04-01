@@ -13,14 +13,16 @@ class SignInController extends GetxController {
   //for password visibilty
   var isPasswordVisible = false.obs;
 
+
   Future<UserCredential?> signInMethod(
-      String userEmail, String userPassword) async {
+      String userEmail, String userPassword ) async {
     try {
       EasyLoading.show(status: "Please wait");
       UserCredential userCredential = await _auth.signInWithEmailAndPassword(
         email: userEmail,
         password: userPassword,
       );
+
 
       EasyLoading.dismiss();
       return userCredential;

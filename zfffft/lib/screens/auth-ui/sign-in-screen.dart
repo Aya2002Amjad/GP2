@@ -154,7 +154,7 @@ TextEditingController userPassword = TextEditingController();
                   onPressed: () async {
                     String email = userEmail.text.trim();
                       String password = userPassword.text.trim();
-
+                    
                       // Input validation
                       if (email.isEmpty || password.isEmpty) {
                         Get.snackbar(
