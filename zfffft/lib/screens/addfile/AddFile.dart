@@ -199,7 +199,7 @@ class AddFilePage extends StatelessWidget {
                   ),
                   SizedBox(
                     height: 10,
-                  ),
+                  ), 
                   MyTextFormField(
                       isNumber: true,
                       hintText: "Total Pages",

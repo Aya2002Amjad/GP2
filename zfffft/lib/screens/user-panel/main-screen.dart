@@ -136,7 +136,7 @@ class MainScreen extends StatelessWidget {
                           padding: EdgeInsets.all(20),
                           child: Text(
                             'No files uploaded yet.',
-                            style: TextStyle(color: AppConstant.appTextColor),
+                            style: TextStyle(color: AppConstant.appMainColor),
                           ),
                         ),
                       );
