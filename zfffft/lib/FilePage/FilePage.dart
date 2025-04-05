@@ -29,6 +29,7 @@ class _FilePageState extends State<FilePage> {
   final PdfController pdfController = Get.put(PdfController());
   final TextEditingController _searchController = TextEditingController();
   final TextEditingController _bookmarkController = TextEditingController();
+  
   bool _isSearching = false;
   late PdfViewerController _pdfViewerController;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -36,40 +37,145 @@ class _FilePageState extends State<FilePage> {
   List<String> _bookmarks = [];
   bool _isLoadingBookmarks = true;
   int _currentSearchIndex = 0;
-   late PdfTextSearchResult _searchResult;
-
+ // late PdfTextSearchResult _searchResult;
+// Add this variable to your state class
+  DateTime _lastPageSaveTime = DateTime.now();
+  bool _isInitialLoad = true;
+  bool _showFabMenu = false;
+PdfTextSearchResult _searchResult = PdfTextSearchResult();
+bool _showNotFoundMessage = false;
 
   @override
   void initState() {
     super.initState();
     _isLoadingBookmarks = true; // Start in loading state
-    _pdfViewerController = PdfViewerController();
-    _loadBookmarks();
-    _searchResult = _pdfViewerController.searchText(""); // Initialize with empty search
+    _pdfViewerController =
+        PdfViewerController(); // Controller initialization happens here
+    // Call the listener setup right after initializing the controller
+    _setupPageChangeListener();
+
+    // Load both bookmarks and last page
+    _initializeReader();
+    // _loadBookmarks(); at last page ..
+    _searchController.addListener(() {
+    if (_searchController.text.isEmpty && _showNotFoundMessage) {
+      setState(() {
+        _showNotFoundMessage = false;
+      });
+    }
+  });
   }
 
-  void _zoomIn() {
-    _pdfViewerController.zoomLevel = _pdfViewerController.zoomLevel + 0.25;
+
+
+
+  @override
+  void dispose() {
+    // Save current page when the widget is disposed
+    _saveCurrentPageBeforeExit();
+    _pdfViewerController.dispose();
+    _searchController.dispose();
+    _bookmarkController.dispose();
+    super.dispose();
   }
 
-  void _zoomOut() {
-    if (_pdfViewerController.zoomLevel > 1.0) {
-      _pdfViewerController.zoomLevel = _pdfViewerController.zoomLevel - 0.25;
+  Future<void> _saveCurrentPageBeforeExit() async {
+    final currentPage = _pdfViewerController.pageNumber;
+    if (currentPage != null) {
+      await _saveLastReadPage(currentPage);
     }
   }
 
+  Future<void> _initializeReader() async {
+    await _loadBookmarks();
 
-   void _nextSearchResult() {
-     if (_searchResult.hasResult) {
-       _searchResult.nextInstance();
-     }
-   }
- 
-   void _previousSearchResult() {
-     if (_searchResult.hasResult) {
-       _searchResult.previousInstance();
-     }
-   }
+    final lastPage = await _loadLastReadPage();
+
+    if (lastPage != null && mounted && lastPage > 1) {
+      // Only jump if not page 1
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        _pdfViewerController.jumpToPage(lastPage);
+        // Set flag to false after jump is complete
+        Future.delayed(const Duration(seconds: 2), () {
+          _isInitialLoad = false;
+        });
+      });
+    } else {
+      _isInitialLoad = false;
+    }
+    setState(() => _isLoadingBookmarks = false);
+  }
+
+void _searchText(String query) {
+  if (query.trim().isEmpty) {
+    return;
+  }
+  final result = _pdfViewerController.searchText(query);
+
+  // Wait for search completion before showing any message
+  result.addListener(() {
+    setState(() {
+      // Update the search result
+      _searchResult = result;
+      // Check if the search has results
+      if (!result.hasResult) {
+        _showNotFoundMessage = true;
+      } else {
+        _showNotFoundMessage = false;
+      }
+    });
+  });
+}
+
+
+// Add this method
+  void _setupPageChangeListener() {
+    _pdfViewerController.addListener(() async {
+      if (!_isInitialLoad) {
+        // Only save if not initial load
+        final now = DateTime.now();
+        if (now.difference(_lastPageSaveTime).inSeconds > 5) {
+          final currentPage = _pdfViewerController.pageNumber;
+          if (currentPage != null && currentPage > 1) {
+            // Also don't save page 1
+            await _saveLastReadPage(currentPage);
+            _lastPageSaveTime = now;
+          }
+        }
+      }
+    });
+  }
+
+  void _zoomIn() {
+    final currentPage = _pdfViewerController.pageNumber;
+    _pdfViewerController.zoomLevel = _pdfViewerController.zoomLevel + 0.25;
+    if (currentPage != null) {
+      _saveLastReadPage(currentPage);
+    }
+  }
+
+  void _zoomOut() {
+    final currentPage = _pdfViewerController.pageNumber;
+    if (_pdfViewerController.zoomLevel > 1.0) {
+      _pdfViewerController.zoomLevel = _pdfViewerController.zoomLevel - 0.25;
+    }
+    if (currentPage != null) {
+      _saveLastReadPage(currentPage);
+    }
+  }
+
+  void _nextSearchResult() {
+    if (_searchResult.hasResult) {
+      _searchResult.nextInstance();
+    }
+  }
+
+  void _previousSearchResult() {
+    if (_searchResult.hasResult) {
+      _searchResult.previousInstance();
+    }
+  }
+
   // Load bookmarks from the new path
   Future<void> _loadBookmarks() async {
     final user = _auth.currentUser;
@@ -104,15 +210,16 @@ class _FilePageState extends State<FilePage> {
     if (bookmarkName.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-        content: Text(
-         'Please Enter your Bookmark!',
-         style: TextStyle(color: Colors.white),
+          content: Text(
+            'Please Enter your Bookmark!',
+            style: TextStyle(color: Colors.white),
           ),
-        backgroundColor: AppConstant.appMainColor,
-     ), ); 
-     return;
-     }
-    
+          backgroundColor: AppConstant.appMainColor,
+        ),
+      );
+      return;
+    }
+
     final fullBookmark =
         '$bookmarkName (Page ${_pdfViewerController.pageNumber})';
 
@@ -131,13 +238,14 @@ class _FilePageState extends State<FilePage> {
 
       setState(() => _bookmarks.add(fullBookmark));
       ScaffoldMessenger.of(context).showSnackBar(
-                         const SnackBar(
-                         content: Text(
-                          'Success add Bookmark',
-                           style: TextStyle(color: Colors.white),
-                          ),
-                         backgroundColor: AppConstant.appMainColor,
-                         ), );
+        const SnackBar(
+          content: Text(
+            'Success add Bookmark',
+            style: TextStyle(color: Colors.white),
+          ),
+          backgroundColor: AppConstant.appMainColor,
+        ),
+      );
       _bookmarkController.clear();
       Get.back();
     } catch (e) {
@@ -302,7 +410,11 @@ class _FilePageState extends State<FilePage> {
                       color: AppConstant.appMainColor)),
               Expanded(
                 child: _bookmarks.isEmpty
-                    ? Center(child: Text("No bookmarks added yet", style: TextStyle(fontSize: 16, color: Colors.grey),))
+                    ? Center(
+                        child: Text(
+                        "No bookmarks added yet",
+                        style: TextStyle(fontSize: 16, color: Colors.grey),
+                      ))
                     : _buildBookmarksList(),
               ),
             ],
@@ -311,8 +423,8 @@ class _FilePageState extends State<FilePage> {
         actions: [
           ElevatedButton(
             style: ElevatedButton.styleFrom(
-            backgroundColor: AppConstant.appMainColor,
-          ),
+              backgroundColor: AppConstant.appMainColor,
+            ),
             onPressed: _showAddBookmarkDialog,
             child: Text('Add Bookmark',
                 style: TextStyle(color: AppConstant.appTextColor)),
@@ -327,6 +439,49 @@ class _FilePageState extends State<FilePage> {
     );
   }
 
+// Add these methods to your _FilePageState class for contune read page ..
+
+  Future<void> _saveLastReadPage(int pageNumber) async {
+    final user = _auth.currentUser;
+    if (user == null) return;
+
+    try {
+      await _firestore
+          .collection('userFile')
+          .doc(user.uid)
+          .collection('ReadingProgress')
+          .doc(widget.fileid)
+          .set({
+        'lastPage': pageNumber,
+        'lastUpdated': FieldValue.serverTimestamp(),
+        'fileId': widget.fileid,
+        'fileTitle': widget.title,
+        'fileUrl': widget.fileUrl,
+      }, SetOptions(merge: true));
+    } catch (e) {
+      debugPrint('Error saving last page: $e');
+    }
+  }
+
+  Future<int?> _loadLastReadPage() async {
+    final user = _auth.currentUser;
+    if (user == null) return null;
+
+    try {
+      final doc = await _firestore
+          .collection('userFile')
+          .doc(user.uid)
+          .collection('ReadingProgress')
+          .doc(widget.fileid)
+          .get();
+
+      return doc.data()?['lastPage'] as int?;
+    } catch (e) {
+      debugPrint('Error loading last page: $e');
+      return null;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -335,34 +490,41 @@ class _FilePageState extends State<FilePage> {
         backgroundColor: AppConstant.appMainColor,
         title: _isSearching
             ? Row(
-                 children: [
-                   Expanded(
-                     child: TextField(
-                         controller: _searchController,
-                         decoration: InputDecoration(
-                           hintText: 'Search...',
-                           hintStyle: TextStyle(color: AppConstant.appTextColor),
-                           border: InputBorder.none,
-                         ),
-                         style: TextStyle(color: AppConstant.appTextColor),
+                children: [
+                  Expanded(
+                    child: TextField(
+                        controller: _searchController,
+                        decoration: InputDecoration(
+                          hintText: 'Search...',
+                          hintStyle: TextStyle(color: AppConstant.appTextColor),
+                          border: InputBorder.none,
+                        ),
+                        style: TextStyle(color: AppConstant.appTextColor),
                          onSubmitted: (query) {
-                           setState(() {
-                             _searchResult =
-                                 _pdfViewerController.searchText(query);
-                           });
-                         }),
-                   ),
-                   IconButton(
-                     icon: Icon(Icons.arrow_upward,
-                         color: AppConstant.appTextColor),
-                     onPressed: _previousSearchResult,
-                   ),
-                   IconButton(
-                     icon: Icon(Icons.arrow_downward,
-                         color: AppConstant.appTextColor),
-                     onPressed: _nextSearchResult,
-                   ),
-                 ],
+                              
+ // Trigger search text on submit
+                      _searchText(query);
+                           
+                           },),
+                  ),
+                  if (_showNotFoundMessage)
+                    Padding(
+                     padding: const EdgeInsets.symmetric(vertical: 8),
+                    child: Text( 'Not found in this file',
+                          style: TextStyle(color: Colors.red, fontSize: 15),),
+                    ),
+
+                  IconButton(
+                    icon: Icon(Icons.arrow_upward,
+                        color: AppConstant.appTextColor),
+                    onPressed: _previousSearchResult,
+                  ),
+                  IconButton(
+                    icon: Icon(Icons.arrow_downward,
+                        color: AppConstant.appTextColor),
+                    onPressed: _nextSearchResult,
+                  ),
+                ],
               )
             : Text(widget.title,
                 style: TextStyle(color: AppConstant.appTextColor)),
@@ -385,21 +547,61 @@ class _FilePageState extends State<FilePage> {
       ),
       floatingActionButton: Column(
         mainAxisAlignment: MainAxisAlignment.end,
+        crossAxisAlignment: CrossAxisAlignment.end,
         children: [
+          // Main FAB that toggles the menu
           FloatingActionButton(
-            backgroundColor: AppConstant.appMainColor.withOpacity(0.7),
-            heroTag: 'add_bookmark',
-            onPressed: _showAddBookmarkDialog,
-            child: Icon(Icons.bookmark_add ,),
+            backgroundColor: AppConstant.appMainColor,
+            heroTag: 'main_fab',
+            onPressed: () => setState(() => _showFabMenu = !_showFabMenu),
+            child: Icon(_showFabMenu ? Icons.close : Icons.menu),
             mini: true,
           ),
-          SizedBox(height: 10),
-          FloatingActionButton(
-            backgroundColor: AppConstant.appMainColor.withOpacity(0.7),
-            heroTag: 'view_bookmarks',
-            onPressed: _showBookmarksDialog,
-            child: Icon(Icons.bookmark),
-          ),
+
+          if (_showFabMenu) ...[
+            SizedBox(height: 10),
+            FloatingActionButton(
+              backgroundColor: AppConstant.appMainColor.withOpacity(0.7),
+              heroTag: 'add_bookmark',
+              onPressed: () {
+                _showAddBookmarkDialog();
+                setState(() => _showFabMenu = false);
+              },
+              child: Icon(Icons.bookmark_add),
+              mini: true,
+            ),
+            SizedBox(height: 10),
+            FloatingActionButton(
+              backgroundColor: AppConstant.appMainColor.withOpacity(0.7),
+              heroTag: 'view_bookmarks',
+              onPressed: () {
+                _showBookmarksDialog();
+                setState(() => _showFabMenu = false);
+              },
+              child: Icon(Icons.bookmark),
+              mini: true,
+            ),
+            SizedBox(height: 10),
+            FloatingActionButton(
+              backgroundColor: AppConstant.appMainColor.withOpacity(0.7),
+              heroTag: 'save_position',
+              onPressed: () async {
+                final currentPage = _pdfViewerController.pageNumber;
+                if (currentPage != null) {
+                  await _saveLastReadPage(currentPage);
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('Saved position: page $currentPage'),
+                      backgroundColor: AppConstant.appMainColor,
+                    ),
+                  );
+                }
+                setState(() => _showFabMenu = false);
+              },
+              child: Icon(Icons.save),
+              mini: true,
+            ),
+          ],
         ],
       ),
       body: Column(
@@ -409,12 +611,24 @@ class _FilePageState extends State<FilePage> {
             children: [
               IconButton(
                 icon: Icon(Icons.arrow_upward, color: AppConstant.appMainColor),
-                onPressed: _pdfViewerController.previousPage,
+                onPressed: () async {
+                  _pdfViewerController.previousPage();
+                  final currentPage = _pdfViewerController.pageNumber;
+                  if (currentPage != null) {
+                    await _saveLastReadPage(currentPage);
+                  }
+                },
               ),
               IconButton(
                 icon:
                     Icon(Icons.arrow_downward, color: AppConstant.appMainColor),
-                onPressed: _pdfViewerController.nextPage,
+                onPressed: () async {
+                  _pdfViewerController.nextPage();
+                  final currentPage = _pdfViewerController.pageNumber;
+                  if (currentPage != null) {
+                    await _saveLastReadPage(currentPage);
+                  }
+                },
               ),
               IconButton(
                 icon: Icon(Icons.zoom_in, color: AppConstant.appMainColor),
