@@ -1,3 +1,5 @@
+// ignore_for_file: file_names, unnecessary_import
+
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:dash_chat_2/dash_chat_2.dart';
@@ -93,12 +95,12 @@ class _ChatbotscreenState extends State<Chatbotscreen> {
                   alignment: Alignment.bottomRight,
                   child: IconButton(
                     icon: Icon(Icons.copy, size: 18, color: Colors.grey.shade600),
-                    tooltip: "Copy to Clipboard",
+                    tooltip: "Copy Message",
                     onPressed: () {
                       Clipboard.setData(ClipboardData(text: message.text));
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
-                          content: Text("Message copied to clipboard"),
+                          content: Text("Message copied!"),
                           duration: Duration(seconds: 1),
                           backgroundColor: AppConstant.appMainColor,
                         ),
