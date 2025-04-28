@@ -724,6 +724,7 @@ void _clearAnnotationAndSelection() {
             child: SfPdfViewer.network(
               widget.fileUrl,
               controller: _pdfViewerController,
+              key: pdfController.pdfViewerKey,
               enableTextSelection: true,
               interactionMode: PdfInteractionMode.selection,
               onTextSelectionChanged: _onTextSelectionChanged,

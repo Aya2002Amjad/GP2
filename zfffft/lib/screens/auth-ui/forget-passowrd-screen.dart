@@ -32,6 +32,7 @@ TextEditingController userEmail = TextEditingController();
               color: AppConstant.appTextColor,
             ),
           ),
+           iconTheme: IconThemeData(color: AppConstant.appTextColor),
         ),
         body: Container(
           child: Column(
@@ -53,10 +54,23 @@ TextEditingController userEmail = TextEditingController();
                       keyboardType: TextInputType.emailAddress,
                       decoration: InputDecoration(
                           hintText: "Email",
-                          prefixIcon: Icon(Icons.email),
+                          hintStyle: TextStyle(color: Colors.grey),
+                          prefixIcon: Icon(Icons.email, color: AppConstant.appMainColor,),
                           contentPadding: EdgeInsets.only(top: 2.0, left: 8.0),
                           border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10.0))),
+                              borderRadius: BorderRadius.circular(10.0)),
+                          enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                          borderSide: BorderSide(
+                          color: AppConstant.appMainColor, 
+                          width: 1.5)),
+
+                          focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                          borderSide: BorderSide(
+                          color: AppConstant.appMainColor,  
+                          width: 2.0))),
+                              
                     ),
                   )),
               SizedBox(
@@ -69,6 +83,7 @@ TextEditingController userEmail = TextEditingController();
                 decoration: BoxDecoration(
                   color: AppConstant.appMainColor,
                   borderRadius: BorderRadius.circular(20.0),
+                  
                 ),
                 child: TextButton(
                   child: Text(

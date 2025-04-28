@@ -6,7 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 class AppConstant {
   
   
-  static String appMainName = 'Graduation Project';
+  static String appMainName = 'LAN';
   static String appPoweredBy = 'Powered By AN ';
   static const appMainColor = Color(0xFFCE93D8);
   static const appTextColor2 = Color.fromRGBO(212, 106, 230, 1);

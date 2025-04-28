@@ -10,6 +10,9 @@ class SettingPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Get the current theme brightness
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
       appBar: AppBar(
@@ -21,19 +24,19 @@ class SettingPage extends StatelessWidget {
       body: Container(
         decoration: BoxDecoration(
           color: Theme.of(context).colorScheme.secondary,
-        borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(12),
         ),
         margin: const EdgeInsets.all(25),
         padding: const EdgeInsets.all(16),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            //dark mode
-            const  Text('Dark Mode'),
+            // Display the text based on current theme
+            Text(isDarkMode ? 'Dark Mode' : 'Light Mode'),
         
-            //switch toggle
+            // Switch toggle for changing the theme
             CupertinoSwitch(
-              value: Provider.of<Themeprovider>(context, listen: false).isDarkMode,
+              value: isDarkMode,
               onChanged: (value) => Provider.of<Themeprovider>(context, listen: false).toggleTheme(),
             ),
           ],

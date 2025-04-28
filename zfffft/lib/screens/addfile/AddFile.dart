@@ -97,7 +97,7 @@ class AddFilePage extends StatelessWidget {
                           style: TextStyle(
                             color: AppConstant.appTextColor,
                           )),
-                      Text("Click To Add File ",
+                      Text("Click To Add File Cover ",
                           style: TextStyle(
                             color: AppConstant.appTextColor,
                           )),
