@@ -1,6 +1,8 @@
 import io
 import docx
 import pdfplumber
+from pptx import Presentation 
+
 def process_document(file_bytes,file_extension):
     if file_extension.lower()=='.pdf':
         return process_pdf(file_bytes)
@@ -8,6 +10,10 @@ def process_document(file_bytes,file_extension):
         return process_word(file_bytes)
     elif  file_extension.lower()=='.txt':
         return process_text(file_bytes)
+    elif file_extension == '.pptx':
+        return process_pptx(file_bytes)
+    else:
+        return "Unsupported file format"
 
 
 
@@ -28,3 +34,12 @@ def process_word(file_bytes):
 
 def process_text(file_bytes):
     return file_bytes.decode('utf-8')
+
+def process_pptx(file_bytes):
+    prs = Presentation(io.BytesIO(file_bytes))
+    text = ''
+    for slide in prs.slides:
+        for shape in slide.shapes:
+            if hasattr(shape, "text"):
+                text += shape.text + '\n'
+    return text

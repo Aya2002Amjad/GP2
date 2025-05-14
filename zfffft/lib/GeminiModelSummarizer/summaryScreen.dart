@@ -240,7 +240,7 @@ Future<void> _downloadPDF(String content, String fileName, BuildContext context)
   Future<void> pickFile() async {
     final result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
-      allowedExtensions: ['pdf', 'docx', 'txt'],
+      allowedExtensions: ['pdf', 'docx', 'txt' , 'pptx'] ,
     );
     if (result != null) {
       setState(() {
@@ -331,4 +331,3 @@ Future<void> _downloadPDF(String content, String fileName, BuildContext context)
     );
   }
 }
-

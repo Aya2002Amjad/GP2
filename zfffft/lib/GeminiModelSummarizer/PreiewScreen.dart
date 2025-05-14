@@ -78,6 +78,8 @@ class Preiewscreen extends StatelessWidget {
     }
   }
 
+
+
   Future<String> _readDocxFile(String filePath) async {
     try {
       final file = File(filePath);
@@ -99,3 +101,4 @@ class Preiewscreen extends StatelessWidget {
     }
   }
 }
+

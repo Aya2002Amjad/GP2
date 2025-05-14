@@ -185,34 +185,39 @@ void translateText() async {
                   style: TextStyle(color: Colors.white)),
             ),
             const SizedBox(height: 20),
-            Container(
-              padding: const EdgeInsets.all(12),
-              width: double.infinity,
-              decoration: BoxDecoration(
-                color: Colors.purple.shade50,
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SelectableText(
-                    translatedText,
-                    style: TextStyle(
-                      fontSize: 20,
-                      color: Colors.black,
-                      fontWeight: FontWeight.normal,
-                    ),
+            Expanded(
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.all(12),
+                child: Container(
+                  padding: const EdgeInsets.all(12),
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    color: Colors.purple.shade50,
+                    borderRadius: BorderRadius.circular(10),
                   ),
-                  const SizedBox(height: 10),
-                  ElevatedButton(
-                    onPressed: copyToClipboard,
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: AppConstant.appMainColor,
-                    ),
-                    child: const Text("Copy",
-                        style: TextStyle(color: Colors.white)),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SelectableText(
+                        translatedText,
+                        style: TextStyle(
+                          fontSize: 20,
+                          color: Colors.black,
+                          fontWeight: FontWeight.normal,
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                      ElevatedButton(
+                        onPressed: copyToClipboard,
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AppConstant.appMainColor,
+                        ),
+                        child: const Text("Copy",
+                            style: TextStyle(color: Colors.white)),
+                      ),
+                    ],
                   ),
-                ],
+                ),
               ),
             ),
           ],
